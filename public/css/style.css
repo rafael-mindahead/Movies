@@ -1,0 +1,53 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #eee;
+}
+
+header {
+    padding: 30px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+.movies {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.movie {
+    background: #1b1b1b;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.movie:hover {
+    background: #222;
+}
+
+.tags {
+    color: #aaa;
+    font-size: 14px;
+}
+
+button {
+    background: #eee;
+    color: #111;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}

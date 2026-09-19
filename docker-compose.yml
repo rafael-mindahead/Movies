@@ -1,0 +1,31 @@
+services:
+
+  php:
+    build: .
+    container_name: movie_php
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.4
+    container_name: movie_mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: movie_recommender
+      MYSQL_USER: movie
+      MYSQL_PASSWORD: movie123
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+volumes:
+  mysql_data:
