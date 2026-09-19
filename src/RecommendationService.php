@@ -1,52 +1,65 @@
 <?php
 
-class RecommendationService {
-    public function recommed( // recebe dados do usuario, e retorna uma lista de filmes recomendados.
-        array $movies, // todos os filmes
-        array $topTags, //preferencias do usuario.
-        array $viewedMovies, //filmes que ja clicou
-        int $limit = 10 // quantos queremos recomendar
-    ): array{ // retorna um lista de recomendacoes.
-        $recommendedMovies = [];
+class RecommendationService
+{
+    public function recommend( // recebe dados do usuario, e retorna uma lista de filmes recomendados.
+        array $movies, // peaga todos os filmes.
+        array $topTags, // pega as tags prefiridas do usuario.
+        array $viewedMovieIds, // pega os ids dos filmes ja visualizados.
+        int $limit = 10 // limita a quantidade de filmes recomendados.
+    ): array { // retorna um array de filmes recomendados, baseado nas preferencias do usuario, e nos filmes ja visualizados.
 
-        $viewedLookup = array_fill_keys(// transforma vistos em um hashmap.
-            $viewedMovies,
+        $recommendations = [];
+
+        $viewedLookup = array_fill_keys( // cria um array associativo, com os ids dos filmes ja visualizados, para facilitar a busca.
+            $viewedMovieIds,
             true
         );
-        foreach ($movies as $movie) { // percorrer todos os filmes, inicialmente 0 (n) = mas, N = NUMERO de filmes 
-            if (isset($viewedLookup[$movie["id"]])) { // nao recomenda filmes que o usuario ja clicou.
-                continue; // pula para o proximo filme.
+
+        foreach ($movies as $movie) { // para cada filme, calcula a pontuacao baseado nas preferencias do usuario, e nos filmes ja visualizados.
+
+            if (isset($viewedLookup[$movie["id"]])) { // verifica se o filme ja foi visualizado pelo usuario, caso sim, ignora o filme e continua para o proximo.
+                continue;
+            }
+
+            $score = 0; // inicializa a pontuacao do filme, que vai ser calculada baseado nas preferencias do usuario.
+
+            $mainTag = $movie["main_tag"]; // pega a tag principal do filme.
+            $subtag1 = $movie["subtag_1"]; // pega a primeira subtag.
+            $subtag2 = $movie["subtag_2"]; // pega a segunda subtag.
+
+            if (isset($topTags[$mainTag])) {
+                $score += $topTags[$mainTag] * 2;
+            }
+
+            if (isset($topTags[$subtag1])) {
+                $score += $topTags[$subtag1];
+            }
+
+            if (isset($topTags[$subtag2])) {
+                $score += $topTags[$subtag2];
+            }
+
+            if ($score > 0) { // se a pontuacao do filme for maior que 0, adiciona o filme na lista de recomendacoes.
+
+                $movie["score"] = $score;
+
+                $recommendations[] = $movie;
             }
         }
-        $score = 0;
 
-        $mainTag = $movie["main_tag"];
-        $subTag1 = $movie["subtag_1"];
-        $subTag2 = $movie["subtag_2"];
+        usort( // ordena a lista de recomendacoes, baseado na pontuacao do filme, em ordem decrescente.
+            $recommendations,
 
-        if (isset($topTags[$mainTag])) {
-            $score += $topTags[$mainTag] * 2;
-        }
-        if (isset($topTags[$subTag1])) {
-            $score += $topTags[$subTag1];
-        }
-        if (isset($topTags[$subTag2])) {
-            $score += $topTags[$subTag2];
-        }
-        if ($score > 0) {
-            $movie["score"] = $score; // adiciona uma nova chave na array.
-            $recommendedMovies[] = $movie;
-        }
+            function ($a, $b) { // compara a pontuacao dos filmes, para ordenar a lista de recomendacoes.
+                return $b["score"] <=> $a["score"]; // operador spaceship, retorna -1, 0 ou 1, dependendo se o valor da esquerda é menor, igual ou maior que o valor da direita.
+            }
+        );
+
+        return array_slice( // retorna um slice do array de recomendacoes, limitado a quantidade de filmes recomendados.
+            $recommendations,
+            0,
+            $limit
+        );
     }
-    usort(
-        $recommendations,
-        function ($a, $b) { // ordena o array de recomendacoes, em ordem decrescente.
-            return $b["score"] <=> $a["score"]; // operador spaceship, retorna -1, 0 ou 1.
-        }
-    );
-    return array_slice(
-        $recommendations,
-        0,
-        $limit
-    );
 }
