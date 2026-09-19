@@ -18,6 +18,7 @@ class PreferenceService {
             }
             $_SESSION['preferences'][$tag]++; // incrementa a preferencia do usuario para aquela tag, caso ja exista, incrementa o valor em 1
         }
+        $_SESSION["viewed_movies"][$movie["id"]] = true; // adiciona o id do filme ao array de filmes visualizados pelo usuario, para evitar que o usuario clique no mesmo filme varias vezes
     }
     public function getTopTags(int $limit = 3): array // metodo que retorna as tags mais preferidas pelo usuario, ordenadas por ordem decrescente, e limitadas a 3 tags
     {
@@ -32,4 +33,7 @@ class PreferenceService {
             true // preserva as chaves do array, para manter a associacao entre chave e valor
         );
     }
+    public function getViewedMovies(): array // metodo que retorna os filmes visualizados pelo usuario, caso nao exista, cria um array vazio
+    {
+        return array_keys($_SESSION["viewed_movies"]?? []); // retorna um array com os ids dos filmes visualizados pelo usuario, caso nao exista, cria um array vazio
 }

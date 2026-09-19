@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../src/Database.php'; //carrega aquivo
 require_once __DIR__ . '/../src/MovieRepository.php'; //carrega aquivo
 require_once __DIR__ . '/../src/PreferenceService.php'; //carrega aquivo
+require_once __DIR__ . '/../src/RecommendationService.php'; //carrega arquivo
 
 $database = new Database(); // instancia o metado
 
@@ -11,6 +12,9 @@ $connection =$database->connect();
 $repository = new MovieRepository($connection); //instancia o objeto MovieRepository, passando a conexao com o banco de dados
 
 $preferenceService = new PreferenceService(); //instancia o objeto PreferenceService, que vai ser usado para adicionar as preferencias do usuario
+
+$recommendationService = new RecommendationService(); //instancia o objeto RecommendationService, que vai ser usado para recomendar filmes para o usuario
+
 
 if($_SESSION["REQUEST_METHOD"] === "POST") { // verifica se o metodo da requisicao é POST, para adicionar as preferencias do usuario
     $movieId = $_POST["movie_id"]; // pega o id do filme que foi clicado pelo usuario, e armazena na variavel $movieId
