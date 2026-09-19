@@ -1,1 +1,9 @@
  .DS_Store
+ .env
+ .env
+
+public/images/movies/*.jpg
+public/images/movies/*.jpeg
+public/images/movies/*.png
+public/images/movies/*.webp
+!public/images/movies/placeholder.jpg

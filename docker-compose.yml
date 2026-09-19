@@ -3,6 +3,8 @@ services:
   php:
     build: .
     container_name: movie_php
+    environment:
+     TMDB_TOKEN: ${TMDB_TOKEN}
     ports:
       - "8080:80"
     volumes:

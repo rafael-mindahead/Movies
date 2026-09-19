@@ -33,7 +33,8 @@ class PreferenceService {
             true // preserva as chaves do array, para manter a associacao entre chave e valor
         );
     }
-    public function getViewedMovies(): array // metodo que retorna os filmes visualizados pelo usuario, caso nao exista, cria um array vazio
+    public function getViewedMoviesIds(): array // metodo que retorna os filmes visualizados pelo usuario, caso nao exista, cria um array vazio
     {
-        return array_keys($_SESSION["viewed_movies"]?? []); // retorna um array com os ids dos filmes visualizados pelo usuario, caso nao exista, cria um array vazio
+        return array_keys($_SESSION["viewed_movies"]?? []);
+    } // retorna um array com os ids dos filmes visualizados pelo usuario, caso nao exista, cria um array vazio
 }

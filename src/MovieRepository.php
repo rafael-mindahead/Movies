@@ -15,7 +15,8 @@ class MovieRepository {
                 title,
                 main_tag,
                 subtag_1,
-                subtag_2
+                subtag_2,
+                poster_path
             FROM movies
             ORDER BY title
         ";
@@ -35,7 +36,8 @@ class MovieRepository {
                 title,
                 main_tag,
                 subtag_1,
-                subtag_2
+                subtag_2,
+                poster_path
             FROM movies
             WHERE id = :id
         ";
