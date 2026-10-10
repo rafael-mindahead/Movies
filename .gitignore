@@ -1,9 +1,12 @@
- .DS_Store
- .env
- .env
+# Arquivos locais e credenciais
+.DS_Store
+.env
+.env.*
+!.env.example
 
+# Posters baixados localmente
 public/images/movies/*.jpg
 public/images/movies/*.jpeg
 public/images/movies/*.png
 public/images/movies/*.webp
-!public/images/movies/placeholder.jpggit 
+!public/images/movies/placeholder.jpg
