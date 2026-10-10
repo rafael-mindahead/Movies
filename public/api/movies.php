@@ -29,7 +29,7 @@ try {
         $protocol
         . "://"
         . $host
-        . "/public/";
+        . "/";
     $data = [];
 
     foreach ($movies as $movie) {
